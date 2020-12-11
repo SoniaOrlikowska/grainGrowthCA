@@ -36,7 +36,7 @@ public class InclusionsGenerator {
         int[][] popo = GrainGrowth.createCoordinates(2,3);*/
         ArrayList<int[]> inclusionSpaceCoordinates = new ArrayList<>();
         if (inclusionSize - 1 > 0) {
-            inclusionSpaceCoordinates = GrainGrowth.filterCoordinates(x, y, new int[20][20]);
+           // inclusionSpaceCoordinates = GrainGrowth.filterCoordinates(x, y, new int[20][20]);
             Set<int[]> coordinatesList = new HashSet<>(inclusionSpaceCoordinates);
             inclusionSpaceCoordinates.clear();
             inclusionSpaceCoordinates.addAll(coordinatesList);

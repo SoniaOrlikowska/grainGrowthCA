@@ -2,45 +2,35 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GrainGrowthFront {
-    public static void main(String[] args) {
-        setFrameLayout();
-    }
-    static JFrame frame = new JFrame("Grain Growth Generator");
-    static JPanel container = new JPanel();
-    static JPanel firstPanel = new JPanel();
-    static JPanel showPanel = new JPanel();
-    static JLabel matrixSize = new JLabel("Matrix Size:");
-    static JLabel xSize = new JLabel("x:");
-    static JTextField xText = new JTextField(6);
-    static JLabel ySize = new JLabel("y:");
-    static JTextField yText = new JTextField(6);
-    static JLabel numberOfGrains = new JLabel("Number of grains:");
-    static JTextField numberOfGrainsText = new JTextField(6);
-    static JLabel type_of_boundaries = new JLabel("Type of boundaries:");
-    static JRadioButton periodic = new JRadioButton("periodic");
-    static JRadioButton absorbent = new JRadioButton("absorbent");
+    JFrame frame = new JFrame("Grain Growth Generator");
+    JPanel firstPanel = new JPanel();
+    static  JPanel showPanel = new JPanel();
+    JLabel matrixSize = new JLabel("Matrix Size:");
+    JLabel xSize = new JLabel("x:");
+    JTextField xText = new JTextField(6);
+    JLabel ySize = new JLabel("y:");
+    JTextField yText = new JTextField(6);
+    JLabel numberOfGrains = new JLabel("Number of grains:");
+    JTextField numberOfGrainsText = new JTextField(6);
+    JLabel type_of_boundaries = new JLabel("Type of boundaries:");
+    JRadioButton periodic = new JRadioButton("periodic");
+    JRadioButton absorbent = new JRadioButton("absorbent");
+    JLabel type_of_inclusion = new JLabel("Type of inclusions:");
+    String[] inclusionTypes = {"None", "Square", "Circle"};
+    JComboBox typeOfInclusionsComboBox = new JComboBox(inclusionTypes);
+    JLabel inclusionSize = new JLabel("Inclusions size:");
+    JTextField inclusionSizeText = new JTextField();
+    JLabel addInclusionAt = new JLabel("Add inclusions:");
+    String[] inclusionInsertType = {"Prior Simulation", " Post simulation"};
+    JComboBox typeOfInclusionsInsertComboBox = new JComboBox(inclusionInsertType);
+    JButton clearAll = new JButton("Clear All");
+    JButton startSimulation = new JButton("Start Simulation");
+    JMenuBar menuBar = new JMenuBar();
+    JMenu menuFile = new JMenu("File");
+    JMenuItem importFile = new JMenuItem("Import File");
+    JMenuItem exportFile = new JMenuItem("Export File");
 
-    static JLabel type_of_inclusion = new JLabel("Type of inclusions:");
-    static String[] inclusionTypes = {"None", "Square", "Circle"};
-    static JComboBox typeOfInclusionsComboBox = new JComboBox(inclusionTypes);
-    static JLabel inclusionSize = new JLabel("Inclusions size:");
-    static JTextField inclusionSizeText = new JTextField();
-    static JLabel addInclusionAt = new JLabel("Add inclusions:");
-    static String[] inclusionInsertType = {"Prior Simulation", " Post simulation"};
-    static JComboBox typeOfInclusionsInsertComboBox = new JComboBox(inclusionInsertType);
-    static JButton clearAll = new JButton("Clear All");
-    static JButton startSimulation = new JButton("Start Simulation");
-
-    static JMenuBar menuBar = new JMenuBar();
-    static JMenu menuFile = new JMenu("File");
-    static JMenuItem importFile = new JMenuItem("Import File");
-    static JMenuItem exportFile = new JMenuItem("Export File");
-
-    public GrainGrowthFront() {
-
-    }
-
-    public static void setFrameLayout() {
+    public void setFrameLayout() {
         GridBagLayout gridBagLayout = new GridBagLayout();
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
@@ -174,13 +164,14 @@ public class GrainGrowthFront {
         gridBagConstraints.weightx = 1;
         firstPanel.add(startSimulation, gridBagConstraints);
 
-
-
         firstPanel.setBackground(Color.white);
-        showPanel.setBackground(Color.red);
 
+       /* ColorGenerator colorGeneratorCanvas = new ColorGenerator();
+        colorGeneratorCanvas.setSize(1000, 1000);
+        showPanel.add(colorGeneratorCanvas);
+*/
         frame.add(firstPanel, BorderLayout.PAGE_START);
-        frame.add(showPanel,BorderLayout.CENTER);
+        frame.add(showPanel, BorderLayout.CENTER);
         frame.getContentPane();
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -188,43 +179,50 @@ public class GrainGrowthFront {
         frame.setResizable(true);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
+        addListeners();
     }
 
-    public static JButton getClearAll() {
+    public void addListeners() {
+        startSimulation.addActionListener(new ButtonListeners.StartSimulation());
+        clearAll.addActionListener(new ButtonListeners.ClearAll());
+    }
+
+    public JButton getClearAll() {
         return clearAll;
     }
 
-    public static JButton getStartSimulation() {
+    public JButton getStartSimulation() {
         return startSimulation;
     }
 
-    public static JTextField getxText() {
+    public JTextField getxText() {
         return xText;
     }
 
-    public static JTextField getyText() {
+    public JTextField getyText() {
         return yText;
     }
 
-    public static JTextField getNumberOfGrainsText() {
+    public JTextField getNumberOfGrainsText() {
         return numberOfGrainsText;
     }
 
-    public static JRadioButton getPeriodic() {
+    public JRadioButton getPeriodic() {
         return periodic;
     }
 
-    public static JRadioButton getAbsorbent() {
+    public JRadioButton getAbsorbent() {
         return absorbent;
     }
 
-    public static JComboBox getTypeOfInclusionsComboBox() {
+    public JComboBox getTypeOfInclusionsComboBox() {
         return typeOfInclusionsComboBox;
     }
 
-    public static JTextField getInclusionSizeText() {
+    public JTextField getInclusionSizeText() {
         return inclusionSizeText;
     }
 
-
+    public JPanel getShowPanel() { return showPanel; }
 }

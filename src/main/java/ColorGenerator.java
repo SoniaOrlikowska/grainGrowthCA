@@ -1,75 +1,67 @@
-import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-public class ColorGenerator extends Canvas {
-    public static void main(String[] args) {
-        JFrame boardFrame = new JFrame("Color Test");
-        ColorGenerator colorGeneratorCanvas = new ColorGenerator();
-        colorGeneratorCanvas.setSize(1000, 1000);
-        colorGeneratorCanvas.setBackground(Color.BLACK);
-        JPanel panel = new JPanel();
-        panel.add(colorGeneratorCanvas);
-        boardFrame.add(panel);
-        boardFrame.setVisible(true);
-        boardFrame.pack();
+public  class ColorGenerator extends Canvas {
+    public void setDraw(boolean draw) {
+        this.draw = draw;
     }
 
+    boolean draw;
+
     public void paint(Graphics g) {
-        HashMap<Integer, Color> colorMap = distinctColoursGenerator(50); //zawsze jest o jeden grain mniej
-        int[][] step0 = InitialStateGenerator.generateInitial(80, 80, 50);
+        //super.paint(g);
+        GrainGrowth gG = new GrainGrowth();
+        HashMap<Integer, Color> colorMap = distinctColoursGenerator(55);
+        int[][] step0 = InitialStateGenerator.generateInitial(500,500,55);
         int[][] step1;
 
-            for (int i = 0; i < step0.length; i++) {
-                for (int j = 0; j < step0.length; j++) {
-                    if (step0[i][j] == 0) {
+        printState(step0, colorMap, g, draw);
+        do {
+            step1 = gG.newStateMatrix(step0);
+            printState(step1, colorMap, g, draw);
+            step0 = step1;
+            System.out.println("TUTAJ");
+        } while (gG.containsZeros(step0).contains(0));
+    }
+
+    public  void printState(int[][] stepMatrix, HashMap<Integer, Color> colorMap, Graphics g, boolean draw) {  //todo jeśli to jest mała macierz niech to idzie wolniej
+        //if (draw) {
+            System.out.println("to jest tutaj: " + draw);
+            int p = 1000 / stepMatrix.length;
+            int q = 1000 / stepMatrix[0].length;
+            for (int i = 0; i < stepMatrix.length; i++) {
+                for (int j = 0; j < stepMatrix.length; j++) {
+                    if (stepMatrix[i][j] == 0) {
                         g.setColor(Color.white);
-                        g.fillRect(10 * i, 10 * j, 10, 10);
+                        g.fillRect(p * i, q * j, p, q);
                     } else {
-                        int grainNumber = step0[i][j];
+                        int grainNumber = stepMatrix[i][j];
                         if (grainNumber != 0) {
                             g.setColor(colorMap.get(grainNumber));
-                            g.fillRect(10 * i, 10 * j, 10, 10);
+                            g.fillRect(p * i, q * j, p, q);
                         }
                     }
                 }
             }
+        }
+  //  }
 
-            do{
-                step1 = GrainGrowth.newStateMatrix(step0);
-                for (int i = 0; i < step1.length; i++) {
-                    for (int j = 0; j < step1.length; j++) {
-                        if (step1[i][j] == 0) {
-                            g.setColor(Color.white);
-                            g.fillRect(10 * i, 10 * j, 10, 10);
-                        } else {
-                            int grainNumber = step1[i][j];
-                            if (grainNumber != 0) {
-                                g.setColor(colorMap.get(grainNumber));
-                                g.fillRect(10 * i, 10 * j, 10, 10);
-                            }
-                        }
-                    }
-                }
-                step0 = step1;
-            }while (GrainGrowth.containsZeros(step0).contains(0));
-    }
 
-    public static HashMap distinctColoursGenerator(int numberOfGrains) {
+    public HashMap distinctColoursGenerator(int numberOfGrains) {
         HashMap<Integer, Color> distinctColours = new HashMap<>();
-        for (int i = 0; i < numberOfGrains; i++) {
+        for (int i = 0; i <= numberOfGrains; i++) {
             Color newColor = colourGenerator();
             if (!distinctColours.containsValue(newColor)) {
                 distinctColours.put(i, newColor);
-            } else {
+            } else {//co w przypadku zduplikowania koloru?
             }
         }
         return distinctColours;
+
     }
 
-    public static Color colourGenerator() {
+    public Color colourGenerator() {
         Color newColor;
         Random random = new Random();
         int R = random.nextInt(255);
@@ -79,4 +71,6 @@ public class ColorGenerator extends Canvas {
 
         return newColor;
     }
+
+
 }
