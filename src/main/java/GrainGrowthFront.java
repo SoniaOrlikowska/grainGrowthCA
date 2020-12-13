@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GrainGrowthFront {
+    private static GrainGrowthFront instance;
+
     JFrame frame = new JFrame("Grain Growth Generator");
     JPanel firstPanel = new JPanel();
     static  JPanel showPanel = new JPanel();
@@ -11,7 +13,7 @@ public class GrainGrowthFront {
     JLabel ySize = new JLabel("y:");
     JTextField yText = new JTextField(6);
     JLabel numberOfGrains = new JLabel("Number of grains:");
-    JTextField numberOfGrainsText = new JTextField(6);
+    static JTextField numberOfGrainsText = new JTextField(6);
     JLabel type_of_boundaries = new JLabel("Type of boundaries:");
     JRadioButton periodic = new JRadioButton("periodic");
     JRadioButton absorbent = new JRadioButton("absorbent");
@@ -166,10 +168,6 @@ public class GrainGrowthFront {
 
         firstPanel.setBackground(Color.white);
 
-       /* ColorGenerator colorGeneratorCanvas = new ColorGenerator();
-        colorGeneratorCanvas.setSize(1000, 1000);
-        showPanel.add(colorGeneratorCanvas);
-*/
         frame.add(firstPanel, BorderLayout.PAGE_START);
         frame.add(showPanel, BorderLayout.CENTER);
         frame.getContentPane();
@@ -188,6 +186,10 @@ public class GrainGrowthFront {
         clearAll.addActionListener(new ButtonListeners.ClearAll());
     }
 
+    public static GrainGrowthFront getInstance() {
+        if (instance == null) instance = new GrainGrowthFront();
+        return instance;
+    }
     public JButton getClearAll() {
         return clearAll;
     }

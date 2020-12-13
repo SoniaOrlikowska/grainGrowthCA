@@ -1,52 +1,59 @@
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-public  class ColorGenerator extends Canvas {
-    public void setDraw(boolean draw) {
-        this.draw = draw;
+public class ColorGenerator extends Canvas {
+    int numberOfGrains;
+    int mainMatrixSizeX;
+    int mainMatrixSizeY;
+
+    public ColorGenerator(int numberOfGrains, int mainMatrixSizeX, int mainMatrixSizeY) {
+        this.numberOfGrains = numberOfGrains;
+        System.out.println("DOSTAJE W COLORGENERATOR: " + numberOfGrains);
+        this.mainMatrixSizeX = mainMatrixSizeX;
+        this.mainMatrixSizeY = mainMatrixSizeY;
     }
 
-    boolean draw;
+    public void paint(Graphics g) {//jak zatrzymać to kurestwo?
 
-    public void paint(Graphics g) {
-        //super.paint(g);
         GrainGrowth gG = new GrainGrowth();
-        HashMap<Integer, Color> colorMap = distinctColoursGenerator(55);
-        int[][] step0 = InitialStateGenerator.generateInitial(500,500,55);
+        HashMap<Integer, Color> colorMap = distinctColoursGenerator(numberOfGrains);
+        int[][] step0 = InitialStateGenerator.generateInitial(mainMatrixSizeX, mainMatrixSizeY, numberOfGrains);
         int[][] step1;
-
-        printState(step0, colorMap, g, draw);
+        int matricesCount = -1;
+        ArrayList<int[][]> listOfMatrices = new ArrayList<>();
         do {
             step1 = gG.newStateMatrix(step0);
-            printState(step1, colorMap, g, draw);
+            printState(step1, colorMap, g);
+            listOfMatrices.add(step1);
             step0 = step1;
-            System.out.println("TUTAJ");
+            matricesCount++;
+
+            gG.printState(step0);
+            System.out.println(" --------");
         } while (gG.containsZeros(step0).contains(0));
+
+       // super.paint(g);
+
     }
 
-    public  void printState(int[][] stepMatrix, HashMap<Integer, Color> colorMap, Graphics g, boolean draw) {  //todo jeśli to jest mała macierz niech to idzie wolniej
-        //if (draw) {
-            System.out.println("to jest tutaj: " + draw);
-            int p = 1000 / stepMatrix.length;
-            int q = 1000 / stepMatrix[0].length;
-            for (int i = 0; i < stepMatrix.length; i++) {
-                for (int j = 0; j < stepMatrix.length; j++) {
-                    if (stepMatrix[i][j] == 0) {
-                        g.setColor(Color.white);
-                        g.fillRect(p * i, q * j, p, q);
-                    } else {
-                        int grainNumber = stepMatrix[i][j];
-                        if (grainNumber != 0) {
-                            g.setColor(colorMap.get(grainNumber));
-                            g.fillRect(p * i, q * j, p, q);
-                        }
-                    }
+    public void printState(int[][] stepMatrix, HashMap<Integer, Color> colorMap, Graphics g) {
+        int p = 800 / stepMatrix.length;
+        int q = 800 / stepMatrix[0].length;
+
+        System.out.println("Dzien dobry ");
+        for (int i = 0; i < stepMatrix.length; i++) {
+            for (int j = 0; j < stepMatrix[0].length; j++) {
+
+                int grainLabel = stepMatrix[j][i];
+                if (grainLabel != 0) {
+                    g.setColor(colorMap.get(grainLabel));
+                    g.fillRect(p * i, q * j, p, q);
                 }
             }
         }
-  //  }
-
+    }
 
     public HashMap distinctColoursGenerator(int numberOfGrains) {
         HashMap<Integer, Color> distinctColours = new HashMap<>();
@@ -58,7 +65,6 @@ public  class ColorGenerator extends Canvas {
             }
         }
         return distinctColours;
-
     }
 
     public Color colourGenerator() {
@@ -71,6 +77,4 @@ public  class ColorGenerator extends Canvas {
 
         return newColor;
     }
-
-
 }
