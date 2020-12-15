@@ -7,9 +7,6 @@ public class ButtonListeners {
     public static class StartSimulation implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            //todo clear canvas before anything
-           //GrainGrowthFront.showPanel.add((Component) null);
-
             JTextField numberOfGrainsText = GrainGrowthFront.getInstance().getNumberOfGrainsText(); //lepiej static czy getInstance()?
             System.out.println("ELO number " + numberOfGrainsText.getText());
             JTextField mainMatrixSizeXText = GrainGrowthFront.getInstance().getxText();
@@ -19,19 +16,15 @@ public class ButtonListeners {
             int mainMatrixSizeY = Integer.parseInt(mainMatrixSizeYText.getText());
 
             ColorGenerator colorGenerator = new ColorGenerator(numberOfGrains, mainMatrixSizeX, mainMatrixSizeY);
-           // GrainGrowthFront.showPanel.remove(0);
+
+            if (GrainGrowthFront.showPanel.getComponents().length == 1) GrainGrowthFront.showPanel.remove(0);
             GrainGrowthFront.showPanel.add(colorGenerator);
 
-            //colorGenerator.update(colorGenerator.getGraphics());
-
-            System.out.println("KOLOR");
-            //colorGenerator.print(colorGenerator.getGraphics());
-            if (!numberOfGrainsText.equals("") && !mainMatrixSizeXText.equals("") && !mainMatrixSizeYText.equals("")) {
+            if (!numberOfGrainsText.equals("") && !mainMatrixSizeXText.equals("") && !mainMatrixSizeYText.equals("")) { //weryfikacja tego co wpisuje uzytkownik do TRIM
                 colorGenerator.setSize(800, 800);
 
                 GrainGrowthFront.getInstance().getStartSimulation().setEnabled(true);
             }
-            //(colorGenerator.getGraphics());
         }
 
     }

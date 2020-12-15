@@ -39,11 +39,11 @@ public class GrainGrowth {
     }
 
     //creates an ArrayList of actual cell neighborhood with fixed InitialMatrix boundaries
-    public ArrayList<int[]> filterCoordinates(int x, int y, int[][] mainMatrix) {
+    public ArrayList<int[]> filterCoordinates(int x, int y, int mainBoardSizeX, int mainBoardSizeY) {
         int[][] coordinates = createNeighboursCoordinates(x, y);
         ArrayList<int[]> filteredCoordinates = new ArrayList<>();
-        int sizeX = mainMatrix.length;
-        int sizeY = mainMatrix[0].length;
+        int sizeX = mainBoardSizeX;
+        int sizeY = mainBoardSizeY;
 
         for (int i = 0; i < 8; i++) {
             if (coordinates[i][0] >= 0 && coordinates[i][0] < sizeX && coordinates[i][1] >= 0 && coordinates[i][1] < sizeY) {
@@ -87,8 +87,8 @@ public class GrainGrowth {
         return mostCommonNeighbour;
     }
 
-    public int neighbourStats(int x, int y, int[][] mainMatrix) {
-        ArrayList<int[]> filteredCoordinates = filterCoordinates(x, y, mainMatrix);
+    public int neighbourStats(int x, int y, int mainBoardSizeX, int mainBoardSizeY, int[][] mainMatrix) {
+        ArrayList<int[]> filteredCoordinates = filterCoordinates(x, y, mainBoardSizeX, mainBoardSizeY);
         int coordinateX;
         int coordinateY;
         int nameCellAs;
@@ -128,8 +128,10 @@ public class GrainGrowth {
     }
 
     public int[][] changeInitialState(int x, int y, int[][] initialState, int[][] afterState) {
+        int mainBoardSizeX = initialState.length;
+        int mainBoardSizeY = initialState[0].length;
         if (initialState[x][y] == 0) {
-            afterState[x][y] = neighbourStats(x, y, initialState);
+            afterState[x][y] = neighbourStats(x, y, mainBoardSizeX, mainBoardSizeY, initialState);
         } else {
             afterState[x][y] = initialState[x][y];
         }

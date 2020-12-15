@@ -16,6 +16,7 @@ public class ColorGenerator extends Canvas {
     }
 
     public void paint(Graphics g) {//jak zatrzymać to kurestwo?
+        super.paint(g);
 
         GrainGrowth gG = new GrainGrowth();
         HashMap<Integer, Color> colorMap = distinctColoursGenerator(numberOfGrains);
@@ -34,7 +35,6 @@ public class ColorGenerator extends Canvas {
             System.out.println(" --------");
         } while (gG.containsZeros(step0).contains(0));
 
-       // super.paint(g);
 
     }
 
