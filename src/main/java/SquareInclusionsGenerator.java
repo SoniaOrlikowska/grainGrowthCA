@@ -1,15 +1,30 @@
 import java.util.*;
 
 public class SquareInclusionsGenerator {
-    public static void main(String[] args) {
-        GrainGrowth gg = new GrainGrowth();
-        int a = (int) Math.pow((4 + 1), 2) * 5;
-        int b = 10 * 10;
 
-        System.out.println("a: " + a + " b: " + b);
-        gg.printState(generateRandomInclusionsStartCoordinates(2, 10, 10, 1));
-        gg.printState(priorInclusionsStateMatrix(2, 10, 10, 2));
+    public int[][] generateMatrixWithPriorInclusion(int inclusionSize, int numberOfInclusions, int[][] mainBoard) {
+        int initialBoardSizeX = mainBoard.length;
+        int initialBoardSizeY = mainBoard[0].length;
+        int[][] inclusionsCoordinates = generateRandomInclusionsStartCoordinates(numberOfInclusions, initialBoardSizeX, initialBoardSizeY, inclusionSize);
 
+        for (int i = 0; i < inclusionsCoordinates.length; i++) {
+            int[] row = inclusionsCoordinates[i];
+            int x = row[0];
+            int y = row[1];
+            addPriorSingleInclusionToMatrix(x, y, inclusionSize, mainBoard);
+        }
+        return mainBoard;
+    }
+
+    public static int[][] addPriorSingleInclusionToMatrix(int inclusionX, int inclusionY, int inclusionSize, int[][] mainBoard) {
+        for (int i = inclusionX - inclusionSize + 1; i <= inclusionX + inclusionSize - 1; i++) {
+            for (int j = inclusionY - inclusionSize + 1; j <= inclusionY + inclusionSize - 1; j++) {
+                mainBoard[inclusionX][inclusionY] = -1;
+                if (i >= 0 && i < mainBoard.length && j >= 0 && j < mainBoard[0].length)
+                    mainBoard[i][j] = -1;
+            }
+        }
+        return mainBoard;
     }
 
     public static boolean compareCoordinates(int[] newCoordinate, int[] existingInclusionCoordinate, int inclusionSize) {
@@ -71,49 +86,4 @@ public class SquareInclusionsGenerator {
         }
         return inclusionsStartCoordinatesArray;
     }
-
-    public static ArrayList<int> allCoordinatesOfSingleInclusion(int x, int y, int inclusionSize, int inclusionsNumber, int initialBoardSizeX, int initialBoardSizeY) {
-        int inclusionAreaSize = (int) Math.pow(inclusionSize,2);
-        int[][] allCoordinatesOfSingleInclusion = new int[inclusionAreaSize][inclusionAreaSize];
-        for(int i = inclusionSize; i < Math.pow(inclusionSize,2); i--){
-            int[] row = new int[2];
-            int newX = x + i;
-            int newY = y + i;
-            row[0] = newX;
-            row[1] = newY;
-            allCoordinatesOfSingleInclusion[i]
-
-
-
-        }
-
-    
-    }
-
-    public static int[][] priorInclusionsStateMatrix(int inclusionsNumber, int initialBoardSizeX, int initialBoardSizeY, int inclusionSize) {
-        int[][] priorIncusionsStateMatrix = new int[initialBoardSizeX][initialBoardSizeY];
-        int[][] inclusionsCoordinates = generateRandomInclusionsStartCoordinates(inclusionsNumber, initialBoardSizeX, initialBoardSizeY, inclusionSize);
-
-        for (int i = 0; i < inclusionsCoordinates.length; i++) {
-            int[] row = inclusionsCoordinates[i];
-            int pubX = row[0];
-            int pubY = row[1];
-            priorIncusionsStateMatrix[pubX][pubY] = -1;
-        }
-
-        return priorIncusionsStateMatrix;
-    }
-
-
-    //czy inclusions nie moga na siebie nachodzic,jak ma sie rozmiar square do circle?
-    //inclusion coordinate should be in the center of inclusion
-    //before simulation
-    //wez macierz zerowa sprzed wrzucenia tam grainów
-    //wygeneruj n wspolrzednych gdzie beda sie znajdowac inclusions
-    //*wsp. zupelnie randomowe
-    //*wsp. z krawedzi
-    //wez wspolrzedna i wyznacz sąsiedztwo o rozmiarze n
-    //wpisz w sąsiedztwo -1
-
-
 }

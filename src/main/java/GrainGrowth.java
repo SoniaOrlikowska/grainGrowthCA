@@ -1,20 +1,6 @@
 import java.util.*;
 
 public class GrainGrowth {
-    //generuje wszystkie stany raczej tego nie otrzebuje
- /*   public int[][] newStateGenerator(int[][] step0) {
-        int[][] nextStepMatrix;
-        ArrayList<Integer> zeros;
-        do {
-            nextStepMatrix = newStateMatrix(step0);
-            zeros = containsZeros(step0);
-            step0 = nextStepMatrix;
-            printState(nextStepMatrix);
-        } while (zeros.contains(0));
-
-        return nextStepMatrix;
-    }*/
-
     //generuje tylko jeden następny stan
     public int[][] newStateMatrix(int[][] initialMatrix) {
         int[][] newStateMatrix = new int[initialMatrix.length][initialMatrix[0].length];
@@ -24,7 +10,6 @@ public class GrainGrowth {
                 changeInitialState(x, y, initialMatrix, newStateMatrix);
             }
         }
-      //  initialMatrix = newStateMatrix;
         zeros = containsZeros(initialMatrix);
 
         return newStateMatrix;
@@ -65,8 +50,10 @@ public class GrainGrowth {
             Map<Integer, Integer> map = new HashMap<>();
 
             for (Integer neighbour : listOfNeighbours) {
+
                 Integer count = map.get(neighbour);
-                map.put(neighbour, count == null ? 1 : count + 1);
+                if (map.get(neighbour) != -1) //czy to pomija mi -1?
+                    map.put(neighbour, count == null ? 1 : count + 1);
             }
 
             int maxValueInMap = Collections.max(map.values());
@@ -158,9 +145,9 @@ public class GrainGrowth {
         return zeros;
     }
 
-  /*  public void printArrayState(ArrayList<ArrayList<Integer>> state) {
+    public void printArrayState(ArrayList<ArrayList<Integer>> state) {
         for (ArrayList<Integer> integers : state) {
             System.out.println(integers + " ");
         }
-    }*/
+    }
 }
