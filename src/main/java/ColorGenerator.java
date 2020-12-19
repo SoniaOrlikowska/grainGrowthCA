@@ -10,43 +10,66 @@ public class ColorGenerator extends Canvas {
 
     public ColorGenerator(int numberOfGrains, int mainMatrixSizeX, int mainMatrixSizeY) {
         this.numberOfGrains = numberOfGrains;
-        System.out.println("DOSTAJE W COLORGENERATOR: " + numberOfGrains);
         this.mainMatrixSizeX = mainMatrixSizeX;
         this.mainMatrixSizeY = mainMatrixSizeY;
     }
 
-    public void paint(Graphics g) {//jak zatrzymać to kurestwo?
+    public void paint(Graphics g) {
         super.paint(g);
 
-        GrainGrowth gG = new GrainGrowth();
+        GrainGrowthFront grainGrowthFront = GrainGrowthFront.getInstance();
+        GrainGrowth gg = new GrainGrowth();
+        int matrixSizeX = grainGrowthFront.getxSizeSlider().getValue();
+        int matrixSizeY = grainGrowthFront.getySizeSlider().getValue();
+        int grainNumber = Integer.parseInt(grainGrowthFront.getNumberOfGrainsText().getText());
+        int inclusionSize = Integer.parseInt(grainGrowthFront.getInclusionSizeText().getText());
         HashMap<Integer, Color> colorMap = distinctColoursGenerator(numberOfGrains);
-        int[][] step0 = InitialStateGenerator.generateInitial(mainMatrixSizeX, mainMatrixSizeY, numberOfGrains);
+        int[][] step0 = new int[matrixSizeX][matrixSizeY];
+       // if (isNoInclusions()) {
+            step0 = InitialStateGenerator.generateInitial(matrixSizeX, matrixSizeY, grainNumber);//}
+        if (isSquarePrior()) {
+            step0 = SquareInclusionsGenerator.generateRandomInclusionsStartCoordinates(inclusionSize, matrixSizeX,matrixSizeY,2 );}
+
+        printAllStates(step0, colorMap, g);
+
+    }
+
+    public boolean isSquarePrior() {
+        int inclusionShape = GrainGrowthFront.getInstance().getTypeOfInclusionsComboBox().getSelectedIndex();
+        int typeOfInclusionGeneration = GrainGrowthFront.getInstance().getTimeOfInclusionsInsertComboBox().getSelectedIndex();
+
+        return inclusionShape == 1 && typeOfInclusionGeneration == 0;
+    }
+
+    public boolean isNoInclusions() {
+        int inclusionShape = GrainGrowthFront.getInstance().getTypeOfInclusionsComboBox().getSelectedIndex();
+
+        return inclusionShape == 0;
+    }
+
+    public void printAllStates(int[][] step0, HashMap<Integer, Color> colorMap, Graphics g) {
         int[][] step1;
-        int matricesCount = -1;
+        GrainGrowth grainGrowth = new GrainGrowth();
         ArrayList<int[][]> listOfMatrices = new ArrayList<>();
+        int matricesCount = -1;
         do {
-            step1 = gG.newStateMatrix(step0);
+            step1 = grainGrowth.newStateMatrix(step0);
             printState(step1, colorMap, g);
             listOfMatrices.add(step1);
             step0 = step1;
             matricesCount++;
+        } while (grainGrowth.containsZeros(step0).contains(0));
 
-            gG.printState(step0);
-            System.out.println(" --------");
-        } while (gG.containsZeros(step0).contains(0));
-
+        grainGrowth.printState(listOfMatrices.get(matricesCount));
 
     }
 
     public void printState(int[][] stepMatrix, HashMap<Integer, Color> colorMap, Graphics g) {
         int p = 800 / stepMatrix.length;
         int q = 800 / stepMatrix[0].length;
-
-        System.out.println("Dzien dobry ");
         for (int i = 0; i < stepMatrix.length; i++) {
             for (int j = 0; j < stepMatrix[0].length; j++) {
-
-                int grainLabel = stepMatrix[j][i];
+                int grainLabel = stepMatrix[i][j];
                 if (grainLabel != 0) {
                     g.setColor(colorMap.get(grainLabel));
                     g.fillRect(p * i, q * j, p, q);

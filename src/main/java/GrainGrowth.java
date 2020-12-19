@@ -17,8 +17,7 @@ public class GrainGrowth {
 
     public int[][] createNeighboursCoordinates(int x, int y) {
         int[][] coordinates = {
-                {x - 1, y + 1}, {x, y + 1}, {x + 1, y + 1}, {x - 1, y}, {x + 1, y}, {x - 1, y - 1}, {x, y - 1}, {x + 1, y - 1}
-        };
+                {x - 1, y + 1}, {x, y + 1}, {x + 1, y + 1}, {x - 1, y}, {x + 1, y}, {x - 1, y - 1}, {x, y - 1}, {x + 1, y - 1}};
 
         return coordinates;
     }
@@ -42,17 +41,14 @@ public class GrainGrowth {
     }
 
     //creates a HashMap with neighbours and theirs counter, finds the most frequent grain, can also draw from duplicates values.
-    //pomijac -1!!
+    //todo pomijac -1!!
     public int mostCommonNeighbour(ArrayList<Integer> listOfNeighbours) {
         int mostCommonNeighbour = 0;
         if (listOfNeighbours.size() != 0) {
-
             Map<Integer, Integer> map = new HashMap<>();
 
             for (Integer neighbour : listOfNeighbours) {
-
                 Integer count = map.get(neighbour);
-                if (map.get(neighbour) != -1) //czy to pomija mi -1?
                     map.put(neighbour, count == null ? 1 : count + 1);
             }
 
@@ -88,7 +84,7 @@ public class GrainGrowth {
             coordinateY = filteredCoordinate[1];
             cellValue = mainMatrix[coordinateX][coordinateY];
 
-            if (cellValue != 0) neighboursNames.add(cellValue);
+            if (cellValue != 0 && cellValue !=-1) neighboursNames.add(cellValue);
         }
 
         if (neighboursNames.size() != 1) {
@@ -143,11 +139,5 @@ public class GrainGrowth {
             }
         }
         return zeros;
-    }
-
-    public void printArrayState(ArrayList<ArrayList<Integer>> state) {
-        for (ArrayList<Integer> integers : state) {
-            System.out.println(integers + " ");
-        }
     }
 }

@@ -2,9 +2,8 @@ import java.util.*;
 
 public class SquareInclusionsGenerator {
 
-    public int[][] generateMatrixWithPriorInclusion(int inclusionSize, int numberOfInclusions, int[][] mainBoard) {
-        int initialBoardSizeX = mainBoard.length;
-        int initialBoardSizeY = mainBoard[0].length;
+    public static int[][] generateMatrixWithPriorInclusion(int inclusionSize, int numberOfInclusions, int initialBoardSizeX, int initialBoardSizeY) {
+        int[][] mainBoard = new int[initialBoardSizeX][initialBoardSizeY];
         int[][] inclusionsCoordinates = generateRandomInclusionsStartCoordinates(numberOfInclusions, initialBoardSizeX, initialBoardSizeY, inclusionSize);
 
         for (int i = 0; i < inclusionsCoordinates.length; i++) {

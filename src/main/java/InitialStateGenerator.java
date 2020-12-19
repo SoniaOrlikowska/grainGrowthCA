@@ -1,11 +1,6 @@
 import java.util.Random;
 
 public class InitialStateGenerator {
-
-    public InitialStateGenerator() {
-        System.out.println("KONSTRUKTOR GENERATORA");
-    }
-
     public static int[][] generateInitial(int mainMatrixSizeX, int mainMatrixSizeY, int grainNumber) {
         int[][] initialMatrix = new int[mainMatrixSizeX][mainMatrixSizeY];
         int[][] grainCoordinates = new int[grainNumber][2];
@@ -15,17 +10,13 @@ public class InitialStateGenerator {
             int row[] = grainCoordinates[i];
             row[0] = random.nextInt(mainMatrixSizeX);
             row[1] = random.nextInt(mainMatrixSizeY);
-            System.out.println("x: " + row[0] + " y: " + row[1]);
-
         }
         for (int k = 0; k < grainCoordinates.length; k++) {
             int[] row = grainCoordinates[k];
             int pubX = row[0];
             int pubY = row[1];
-            if (initialMatrix[pubX][pubX] == 0) initialMatrix[pubX][pubY] = k + 1;
+            if (initialMatrix[pubX][pubY] == 0) initialMatrix[pubX][pubY] = k + 1;
         }
         return initialMatrix;
     }
-
-
 }
