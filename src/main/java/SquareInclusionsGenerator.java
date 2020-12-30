@@ -12,6 +12,16 @@ public class SquareInclusionsGenerator {
             int y = row[1];
             addPriorSingleInclusionToMatrix(x, y, inclusionSize, mainBoard);
         }
+        int[][] step0 = InitialStateGenerator.generateInitial(initialBoardSizeX,initialBoardSizeY,Integer.parseInt(GrainGrowthFront.getInstance().getNumberOfGrainsText().getText()));
+        for(int i = 0; i < initialBoardSizeX; i++){
+            for(int j = 0; j < initialBoardSizeY;j++) {
+
+                if (mainBoard[i][j] != -1) {
+                    mainBoard[i][j] = step0[i][j];
+                }
+            }
+
+        }
         return mainBoard;
     }
 

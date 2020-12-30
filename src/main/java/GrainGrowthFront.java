@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-
 public class GrainGrowthFront {
     private static GrainGrowthFront instance;
 
@@ -21,6 +20,8 @@ public class GrainGrowthFront {
     JComboBox typeOfInclusionsComboBox = new JComboBox(inclusionTypes);
     JLabel inclusionSize = new JLabel("Inclusions size:");
     JTextField inclusionSizeText = new JTextField();
+    JLabel inclusionNumber = new JLabel("Number of Inclusions:");
+    JTextField inclusionsNumberText = new JTextField();
     JLabel addInclusionAt = new JLabel("Add inclusions:");
     String[] inclusionInsertTime = {"Prior Simulation", " Post simulation"};
     JComboBox timeOfInclusionsInsertComboBox = new JComboBox(inclusionInsertTime);
@@ -29,14 +30,18 @@ public class GrainGrowthFront {
     JButton stopSimulation = new JButton("Stop Simulation");
     JMenuBar menuBar = new JMenuBar();
     JMenu menuFile = new JMenu("File");
-    JMenuItem importFile = new JMenuItem("Import File");
-    JMenuItem exportFile = new JMenuItem("Export File");
+    JMenu importFile = new JMenu("Import File");
+    JMenu exportFile = new JMenu("Export File");
+    JMenuItem txtFile = new JMenuItem(".txt");
+    JMenuItem pngFile = new JMenuItem(".bmp");
 
 
     public void setFrameLayout() {
         GridBagLayout gridBagLayout = new GridBagLayout();
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
+        exportFile.add(txtFile);
+        exportFile.add(pngFile);
         menuFile.add(importFile);
         menuFile.add(exportFile);
         menuBar.add(menuFile);
@@ -152,12 +157,27 @@ public class GrainGrowthFront {
         gridBagConstraints.gridy = 6;
         gridBagConstraints.insets = new Insets(10, 10, 0, 0);
         gridBagConstraints.weightx = 1;
-        firstPanel.add(addInclusionAt, gridBagConstraints);
+        firstPanel.add(inclusionNumber, gridBagConstraints);
 
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
+        gridBagConstraints.insets = new Insets(10, 10, 0, 20);
+        gridBagConstraints.weightx = 1;
+        firstPanel.add(inclusionsNumberText, gridBagConstraints);
+
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.insets = new Insets(10, 10, 0, 0);
+        gridBagConstraints.weightx = 1;
+        firstPanel.add(addInclusionAt, gridBagConstraints);
+
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.insets = new Insets(10, 10, 0, 0);
         gridBagConstraints.weightx = 1;
         firstPanel.add(timeOfInclusionsInsertComboBox, gridBagConstraints);
@@ -165,7 +185,7 @@ public class GrainGrowthFront {
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.gridwidth = 1;
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.insets = new Insets(10, 0, 0, 0);
         gridBagConstraints.weightx = 1;
         firstPanel.add(stopSimulation, gridBagConstraints);
@@ -173,7 +193,7 @@ public class GrainGrowthFront {
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.insets = new Insets(10, 10, 0, 0);
         gridBagConstraints.weightx = 1;
         firstPanel.add(startSimulation, gridBagConstraints);
@@ -197,7 +217,10 @@ public class GrainGrowthFront {
 
     public void addListeners() {
         startSimulation.addActionListener(new ButtonListeners.StartSimulation());
-        clearAll.addActionListener(new ButtonListeners.ClearAll());
+        txtFile.addActionListener(new ButtonListeners.SaveToTxt());
+        pngFile.addActionListener(new ButtonListeners.SaveToPng());
+        typeOfInclusionsComboBox.addActionListener(new ButtonListeners.DisableInclusions());
+
     }
 
     public static GrainGrowthFront getInstance() {
@@ -235,6 +258,10 @@ public class GrainGrowthFront {
 
     public JComboBox getTimeOfInclusionsInsertComboBox() {
         return timeOfInclusionsInsertComboBox;
+    }
+
+    public JTextField getInclusionsNumberText() {
+        return inclusionsNumberText;
     }
 
     public JPanel getShowPanel() {
