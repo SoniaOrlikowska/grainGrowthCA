@@ -46,6 +46,21 @@ public class GrainGrowth {
         }
     }
 
+    public ArrayList<Integer> getGrainsBoundaries(int x, int y, int mainBoardSizeX, int mainBoardSizeY, int[][] mainMatrix) {
+        ArrayList<int[]> filteredCoordinates = filterCoordinates(x, y, mainBoardSizeX, mainBoardSizeY); //dac bardziej sensowna nazwe na to
+        ArrayList<Integer> neighboursNames = new ArrayList<>();
+
+        for (int[] filteredCoordinate : filteredCoordinates) {
+            int coordinateX = filteredCoordinate[0];
+            int coordinateY = filteredCoordinate[1];
+            int cellValue = mainMatrix[coordinateX][coordinateY];
+
+            if (cellValue != 0 && cellValue != -1) neighboursNames.add(cellValue);
+        }
+
+        return neighboursNames;
+    }
+
     public int[][] createNeighboursCoordinates(int x, int y) {
         int[][] coordinates = {
                 {x - 1, y + 1}, {x, y + 1}, {x + 1, y + 1},
@@ -60,7 +75,6 @@ public class GrainGrowth {
     public ArrayList<int[]> filterCoordinates(int x, int y, int sizeX, int sizeY) {
         int[][] coordinates = createNeighboursCoordinates(x, y);
         ArrayList<int[]> filteredCoordinates = new ArrayList<>();
-
         for (int i = 0; i < 8; i++) {
             if (coordinates[i][0] >= 0 && coordinates[i][0] < sizeX && coordinates[i][1] >= 0 && coordinates[i][1] < sizeY) {
                 int[] singleCoordinate = new int[2];
@@ -127,7 +141,7 @@ public class GrainGrowth {
         }
     }
 
-    public ArrayList<Integer> containsZeros(int[][] state) {
+    public static ArrayList<Integer> containsZeros(int[][] state) {
         ArrayList<Integer> zeros = new ArrayList<>();
 
         for (int i = 0; i < state.length; i++) {

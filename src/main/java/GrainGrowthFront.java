@@ -12,18 +12,18 @@ public class GrainGrowthFront {
     JSlider ySizeSlider = new JSlider(JSlider.HORIZONTAL, 0, 800, 400);
     JLabel numberOfGrains = new JLabel("Number of grains:");
     static JTextField numberOfGrainsText = new JTextField(6);
-    JLabel type_of_boundaries = new JLabel("Boundries type: ");
+    JLabel type_of_boundaries = new JLabel("Boundaries type: ");
     JRadioButton periodic = new JRadioButton("periodic");
     JRadioButton absorbent = new JRadioButton("absorbent");
     JLabel type_of_inclusion = new JLabel("Type of inclusions:");
-    String[] inclusionTypes = {"None", "Square", "Circle"};
+    String[] inclusionTypes = {"", "Square", "Circle"};
     JComboBox typeOfInclusionsComboBox = new JComboBox(inclusionTypes);
     JLabel inclusionSize = new JLabel("Inclusions size:");
     JTextField inclusionSizeText = new JTextField();
     JLabel inclusionNumber = new JLabel("Number of Inclusions:");
     JTextField inclusionsNumberText = new JTextField();
     JLabel addInclusionAt = new JLabel("Add inclusions:");
-    String[] inclusionInsertTime = {"Prior Simulation", " Post simulation"};
+    String[] inclusionInsertTime = {"Prior Simulation", "Post simulation"};
     JComboBox timeOfInclusionsInsertComboBox = new JComboBox(inclusionInsertTime);
     JButton clearAll = new JButton("Clear All");
     JButton startSimulation = new JButton("Start Simulation");
@@ -35,10 +35,11 @@ public class GrainGrowthFront {
     JMenuItem txtFile = new JMenuItem(".txt");
     JMenuItem pngFile = new JMenuItem(".bmp");
 
-
     public void setFrameLayout() {
         GridBagLayout gridBagLayout = new GridBagLayout();
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        //typeOfInclusionsComboBox.setSelectedIndex(0);
+        //timeOfInclusionsInsertComboBox.setSelectedIndex(0);
 
         exportFile.add(txtFile);
         exportFile.add(pngFile);
@@ -218,7 +219,7 @@ public class GrainGrowthFront {
     public void addListeners() {
         startSimulation.addActionListener(new ButtonListeners.StartSimulation());
         txtFile.addActionListener(new ButtonListeners.SaveToTxt());
-        pngFile.addActionListener(new ButtonListeners.SaveToPng());
+        pngFile.addActionListener(new ButtonListeners.SaveToBmp());
         typeOfInclusionsComboBox.addActionListener(new ButtonListeners.DisableInclusions());
 
     }

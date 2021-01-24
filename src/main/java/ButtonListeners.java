@@ -1,9 +1,11 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.MenuListener;
 import javax.xml.transform.Source;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -22,10 +24,9 @@ public class ButtonListeners {
             GrainGrowthFront.showPanel.add(colorGenerator);
             // if (!numberOfGrainsText.equals("") && mainMatrixSizeX != 0 && mainMatrixSizeY != 0) { //weryfikacja tego co wpisuje uzytkownik: zrobic TRIM
             colorGenerator.setSize(800, 800);
-            GrainGrowthFront.getInstance().getStartSimulation().setEnabled(true);
-            SaveCanvas.saveCanvas(colorGenerator);
+            //GrainGrowthFront.getInstance().getStartSimulation().setEnabled(true);
+            SaveCanvas.setCanvas(colorGenerator);
             // }
-
         }
     }
 
@@ -37,9 +38,9 @@ public class ButtonListeners {
 
             if (isInclusionSelected(e)) {
                 numberOfInclusions.setEnabled(false);
-                numberOfInclusions.setText("0");//todo byc tak nie moze
+               // numberOfInclusions.setText("0");//todo byc tak nie moze
                 sizeOfInclusions.setEnabled(false);
-                sizeOfInclusions.setText("0");
+               // sizeOfInclusions.setText("0");
                 GrainGrowthFront.getInstance().getTimeOfInclusionsInsertComboBox().setEnabled(false);
             } else {
                 numberOfInclusions.setEnabled(true);
@@ -58,6 +59,8 @@ public class ButtonListeners {
     public static class SaveToTxt implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            SaveToTextFile.printToFile();
+
             File output = new File("GrainGrowth.txt");
             Desktop desktop = Desktop.getDesktop();
             try {
@@ -68,10 +71,12 @@ public class ButtonListeners {
         }
     }
 
-    public static class SaveToPng implements ActionListener {
+    public static class SaveToBmp implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            File output = new File("GrainGrowth.png");
+            SaveCanvas.saveCanvas();
+
+            File output = new File("GrainGrowth.bmp");
             Desktop desktop = Desktop.getDesktop();
             try {
                 desktop.open(output);
