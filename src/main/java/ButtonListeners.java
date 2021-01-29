@@ -21,7 +21,8 @@ public class ButtonListeners {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-             
+            ColorGenerator.paintOnlyBorders();
+            canvas.repaint();
         }
     }
     public static class AddBorders implements ActionListener{

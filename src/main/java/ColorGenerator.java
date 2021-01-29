@@ -11,14 +11,19 @@ public class ColorGenerator extends Canvas {
     int[][] step0;
 
     static int[][] step1;
-    HashMap<Integer, Color> colorMap;
+    static HashMap<Integer, Color> colorMap;
+    static HashMap<Integer, Color> blackAndWhiteMap;
     static boolean runOnce;
 
     public static void setGrainBorderCoordinate(ArrayList<Point> grainBorderCoordinate) {
-        ColorGenerator.grainBorderCoordinate.addAll(grainBorderCoordinate);
+        // ColorGenerator.grainBorderCoordinate.addAll(grainBorderCoordinate);
+
+        for (Point point : grainBorderCoordinate) {
+            step1[point.x][point.y] = -1;
+        }
     }
 
-    static ArrayList<Point> grainBorderCoordinate;
+    // static ArrayList<Point> grainBorderCoordinate;
 
     public ColorGenerator(int numberOfGrains, int mainMatrixSizeX, int mainMatrixSizeY) {
         this.numberOfGrains = numberOfGrains;
@@ -27,7 +32,7 @@ public class ColorGenerator extends Canvas {
         this.step0 = new int[this.mainMatrixSizeX][this.mainMatrixSizeY];
         step1 = new int[this.mainMatrixSizeX][this.mainMatrixSizeY];
         runOnce = false;
-        grainBorderCoordinate = new ArrayList<>();
+        //grainBorderCoordinate = new ArrayList<>();
     }
 
     public void paint(Graphics g) {
@@ -36,8 +41,9 @@ public class ColorGenerator extends Canvas {
         int matrixSizeX = grainGrowthFront.getxSizeSlider().getValue();
         int matrixSizeY = grainGrowthFront.getySizeSlider().getValue();
         int grainNumber = Integer.parseInt(grainGrowthFront.getNumberOfGrainsText().getText());
-        if (this.colorMap == null) {
-            this.colorMap = distinctColoursGenerator(numberOfGrains);
+        if (colorMap == null) {
+            colorMap = distinctColoursGenerator(numberOfGrains);
+            blackAndWhiteMap = cleanColoursGenerator(numberOfGrains);
         }
 
         int numberOfInclusions = Integer.parseInt("0".concat(grainGrowthFront.getInclusionsNumberText().getText()));
@@ -52,8 +58,8 @@ public class ColorGenerator extends Canvas {
             // If so, then use the previously created matrix.
             System.out.println("The paint method was already ran");
 
-            printState(this.step0, colorMap, g);
-            paintGrainBorderOnCanvas(step0, g, grainBorderCoordinate);
+            printState(this.step1, colorMap, g);
+            //paintGrainBorderOnCanvas(step0, g, grainBorderCoordinate);
         } else {
             if (isNoInclusionSelected()) {
                 this.step0 = InitialStateGenerator.generateInitial(matrixSizeX, matrixSizeY, grainNumber);
@@ -126,23 +132,19 @@ public class ColorGenerator extends Canvas {
         }
     }
 
-    public static void paintOnlyBorders(int[][] grainMatrixWithBorders, Graphics g) {
-        int p = 800 / grainMatrixWithBorders.length;
-        int q = 800 / grainMatrixWithBorders[0].length;
-        int thickness = GrainGrowthFront.getInstance().getBorderThicknessSlider().getValue();
-        for (int i = 0; i < grainMatrixWithBorders.length; i++) {
-            for (int j = 0; j < grainMatrixWithBorders[0].length; j++) {
-                int grainLabel = grainMatrixWithBorders[i][j];
-                if (grainLabel != -1) {
-                    g.setColor(Color.white);
-                    g.fillRect(p * i, q * j, p, q);
-                } else {
-                    g.setColor(Color.BLACK); //dodac thickenes
-                    g.fillRect(p * i, q * j, thickness, thickness);
-                }
+    public static void paintOnlyBorders() {
+        colorMap = blackAndWhiteMap;
+    }
 
-            }
+    public HashMap cleanColoursGenerator(int numberOfGrains) {
+        HashMap<Integer, Color> distinctColours = new HashMap<>();
+        distinctColours.put(-1, Color.BLACK);
+
+        for (int i = 0; i <= numberOfGrains + 1; i++) {
+            distinctColours.put(i, Color.WHITE);
         }
+
+        return distinctColours;
     }
 
     public HashMap distinctColoursGenerator(int numberOfGrains) {
