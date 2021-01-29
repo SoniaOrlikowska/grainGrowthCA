@@ -44,6 +44,7 @@ public class ButtonListeners {
             int mainMatrixSizeX = GrainGrowthFront.getInstance().getxSizeSlider().getValue();
             int mainMatrixSizeY = GrainGrowthFront.getInstance().getySizeSlider().getValue();
 
+            ColorGenerator.reset();
             ColorGenerator colorGenerator = new ColorGenerator(numberOfGrains, mainMatrixSizeX, mainMatrixSizeY);
             ButtonListeners.setColorGenerator(colorGenerator);
 
@@ -55,7 +56,6 @@ public class ButtonListeners {
             SaveCanvas.setCanvas(colorGenerator);
             // }
             colorGenerator.addMouseListener(new SelectedGrainsCoordinates());
-
         }
 
     }

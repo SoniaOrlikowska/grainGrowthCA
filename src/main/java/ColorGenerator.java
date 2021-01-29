@@ -15,6 +15,11 @@ public class ColorGenerator extends Canvas {
     static HashMap<Integer, Color> blackAndWhiteMap;
     static boolean runOnce;
 
+    public static void reset() {
+        runOnce = false;
+        colorMap = null;
+    }
+
     public static void setGrainBorderCoordinate(ArrayList<Point> grainBorderCoordinate) {
         // ColorGenerator.grainBorderCoordinate.addAll(grainBorderCoordinate);
 
@@ -79,8 +84,8 @@ public class ColorGenerator extends Canvas {
                     // paintOnlyBorders(this.step0, g);
                 }
                 step1 = this.step0;
-               // PostInclusions.addBordersToGrainsMatrix(this.step0);
-               // PostInclusions.paintBordersOnCanvas(this.step0, g);
+                // PostInclusions.addBordersToGrainsMatrix(this.step0);
+                // PostInclusions.paintBordersOnCanvas(this.step0, g);
                 //PostInclusions.addBordersToGrainsMatrix(step1);
             }
 
@@ -120,13 +125,18 @@ public class ColorGenerator extends Canvas {
     public static void printState(int[][] stepMatrix, HashMap<Integer, Color> colorMap, Graphics g) {
         int p = 800 / stepMatrix.length;
         int q = 800 / stepMatrix[0].length;
-
+        int borderSize = GrainGrowthFront.getInstance().borderThicknessSlider.getValue();
+        System.out.println("border size " + borderSize);
         for (int i = 0; i < stepMatrix.length; i++) {
             for (int j = 0; j < stepMatrix[0].length; j++) {
                 int grainLabel = stepMatrix[i][j];
-                if (grainLabel != 0) {
+                if (grainLabel > 0) {
                     g.setColor(colorMap.get(grainLabel));
                     g.fillRect(p * i, q * j, p, q);
+                }
+                if (grainLabel == -1) {
+                    g.setColor(Color.BLACK);
+                    g.fillRect(p * i, q * j, borderSize, borderSize);
                 }
             }
         }
