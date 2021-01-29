@@ -1,3 +1,4 @@
+import javax.crypto.spec.PSource;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -151,28 +152,48 @@ public class SquareInclusionsGenerator {
         return flag;
     }
 
-    public static void main(String[] args) {
-        int[][] bord = new int[20][20];
-        GrainGrowth gg = new GrainGrowth();
-        gg.printState(drawSingleCircularInclusionOnBoard(10, 10, 6, bord));
-        gg.printState(drawSingleSquareInclusionOnBoard(10, 10, 2, bord));
 
-        findGrainBoundaries(ColorGenerator.lastStateMatrix);
-    }
-
-    public static List<Point> findGrainBoundaries(int[][] grainGrowthMatrix){
+   /* public static List<Point> findGrainBoundaries(int[][] grainGrowthMatrix) {
         List<Point> availableCoordinates = new ArrayList<>();
         int sizeX = grainGrowthMatrix.length;
         int sizeY = grainGrowthMatrix[0].length;
+
         GrainGrowth grainGrowth = new GrainGrowth();
-        for(int i = 0; i < sizeX; i++){
+        System.out.println("Starting looping for boundary finding");
+
+        for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
-            int size = grainGrowth.getGrainsBoundaries(i, j, sizeX, sizeY, grainGrowthMatrix).size();
-            if(size != 1) availableCoordinates.add(new Point(i,j));
+               int size = grainGrowth.getGrainsBoundaries(i, j, sizeX, sizeY, grainGrowthMatrix).size();
+                System.out.println("SIZE: " + size);
+                if (size != 1) availableCoordinates.add(new Point(i, j));
+                System.out.println("Punkt:"+new Point(i,j));
             }
         }
-        return availableCoordinates;
-    }
 
+        return availableCoordinates;
+    }*/
+
+    public static ArrayList<Point> findGrainsBoundariesCoordinates(int[][] mainMatrix) {
+        int cellValue;
+        int nextCellValue;
+        int sizeX = mainMatrix.length;
+        int sizeY = mainMatrix[0].length;
+        ArrayList<Point> boundariesCoordinates = new ArrayList<>();
+
+        for (int i = 0; i < sizeX - 1; i++) {
+            for (int j = 0; j < sizeY - 1; j++) {
+                //if (!(i + 1 >= sizeX && j + 1 >= sizeY)) {
+                cellValue = mainMatrix[i][j];
+                nextCellValue = mainMatrix[i + 1][j + 1];
+                if (cellValue != nextCellValue) {
+                    boundariesCoordinates.add(new Point(i, j));
+                    System.out.println("PUNKT" + new Point(i, j));
+                }
+
+                //}
+            }
+        }
+        return boundariesCoordinates;
+    }
 }
 

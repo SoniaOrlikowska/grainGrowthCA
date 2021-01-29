@@ -1,6 +1,8 @@
+import java.awt.*;
 import java.util.*;
 
 public class GrainGrowth {
+
     //generuje tylko jeden następny stan
     public int[][] newStateMatrix(int[][] initialMatrix) {
         int sizeX = initialMatrix.length;
@@ -29,37 +31,24 @@ public class GrainGrowth {
     public int neighbourStats(int x, int y, int mainBoardSizeX, int mainBoardSizeY, int[][] mainMatrix) {
         ArrayList<int[]> filteredCoordinates = filterCoordinates(x, y, mainBoardSizeX, mainBoardSizeY); //dac bardziej sensowna nazwe na to
         ArrayList<Integer> neighboursNames = new ArrayList<>();
+        ArrayList<Point> boundsCoordinates = new ArrayList<>();
 
         for (int[] filteredCoordinate : filteredCoordinates) {
             int coordinateX = filteredCoordinate[0];
             int coordinateY = filteredCoordinate[1];
             int cellValue = mainMatrix[coordinateX][coordinateY];
 
-            if (cellValue != 0 && cellValue != -1) neighboursNames.add(cellValue);
+            if (cellValue != 0 && cellValue != -1) {
+                neighboursNames.add(cellValue);
+            }
         }
-
         if (neighboursNames.size() != 1) {
-            //nameCellAs = mostCommonNeighbour(neighboursNames);
             return mostCommonNeighbour(neighboursNames);
         } else {
             return neighboursNames.get(0);
         }
     }
 
-    public ArrayList<Integer> getGrainsBoundaries(int x, int y, int mainBoardSizeX, int mainBoardSizeY, int[][] mainMatrix) {
-        ArrayList<int[]> filteredCoordinates = filterCoordinates(x, y, mainBoardSizeX, mainBoardSizeY); //dac bardziej sensowna nazwe na to
-        ArrayList<Integer> neighboursNames = new ArrayList<>();
-
-        for (int[] filteredCoordinate : filteredCoordinates) {
-            int coordinateX = filteredCoordinate[0];
-            int coordinateY = filteredCoordinate[1];
-            int cellValue = mainMatrix[coordinateX][coordinateY];
-
-            if (cellValue != 0 && cellValue != -1) neighboursNames.add(cellValue);
-        }
-
-        return neighboursNames;
-    }
 
     public int[][] createNeighboursCoordinates(int x, int y) {
         int[][] coordinates = {

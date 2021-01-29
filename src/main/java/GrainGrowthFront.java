@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+
 public class GrainGrowthFront {
     private static GrainGrowthFront instance;
 
@@ -34,6 +35,12 @@ public class GrainGrowthFront {
     JMenu exportFile = new JMenu("Export File");
     JMenuItem txtFile = new JMenuItem(".txt");
     JMenuItem pngFile = new JMenuItem(".bmp");
+    JLabel boundariesLabel = new JLabel("Grains boundaries parameters:");
+    JLabel borderThicknessLabel = new JLabel("Border thickness:");
+    JSlider borderThicknessSlider = new JSlider(JSlider.HORIZONTAL, 0, 15, 5);
+    JButton addBordersButton = new JButton("Add Borders");
+    JButton clearSpaceButton = new JButton("Clear Space");
+
 
     public void setFrameLayout() {
         GridBagLayout gridBagLayout = new GridBagLayout();
@@ -198,9 +205,47 @@ public class GrainGrowthFront {
         gridBagConstraints.insets = new Insets(10, 10, 0, 0);
         gridBagConstraints.weightx = 1;
         firstPanel.add(startSimulation, gridBagConstraints);
+
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.insets = new Insets(10, 10, 0, 0);
+        gridBagConstraints.weightx = 1;
+        firstPanel.add(boundariesLabel, gridBagConstraints);
+
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.insets = new Insets(10, 10, 0, 0);
+        gridBagConstraints.weightx = 1;
+        firstPanel.add(borderThicknessLabel, gridBagConstraints);
+
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.insets = new Insets(10, 10, 0, 0);
+        gridBagConstraints.weightx = 1;
+        borderThicknessSlider.setMajorTickSpacing(5);
+        borderThicknessSlider.setPaintLabels(true);
+        firstPanel.add(borderThicknessSlider, gridBagConstraints);
+
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.insets = new Insets(10, 10, 0, 0);
+        gridBagConstraints.weightx = 1;
+        firstPanel.add(addBordersButton, gridBagConstraints);
+
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.insets = new Insets(10, 10, 0, 0);
+        gridBagConstraints.weightx = 1;
+        firstPanel.add(clearSpaceButton, gridBagConstraints);
+
         firstPanel.setBackground(Color.white);
         firstPanel.setBorder(BorderFactory.createEtchedBorder());
-
         showPanel.setBackground(Color.white);
 
         frame.add(firstPanel, BorderLayout.WEST);
@@ -221,6 +266,8 @@ public class GrainGrowthFront {
         txtFile.addActionListener(new ButtonListeners.SaveToTxt());
         pngFile.addActionListener(new ButtonListeners.SaveToBmp());
         typeOfInclusionsComboBox.addActionListener(new ButtonListeners.DisableInclusions());
+        clearSpaceButton.addActionListener(new ButtonListeners.ClearSpace());
+        addBordersButton.addActionListener(new ButtonListeners.AddBorders());
 
     }
 
@@ -275,5 +322,14 @@ public class GrainGrowthFront {
 
     public JSlider getySizeSlider() {
         return ySizeSlider;
+    }
+
+    public JSlider getBorderThicknessSlider() {
+        return borderThicknessSlider;
+    } public JButton getAddBordersButton() {
+        return addBordersButton;
+    }
+    public void setBorderThicknessSlider(JSlider borderThicknessSlider) {
+        this.borderThicknessSlider = borderThicknessSlider;
     }
 }
