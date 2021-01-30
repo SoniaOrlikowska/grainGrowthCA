@@ -8,7 +8,9 @@ public class ColorGenerator extends Canvas {
     int numberOfGrains;
     int mainMatrixSizeX;
     int mainMatrixSizeY;
+    boolean isMainGenerator;
     int[][] step0;
+    int[][] sideStep;
 
     static int[][] step1;
     static HashMap<Integer, Color> colorMap;
@@ -26,7 +28,8 @@ public class ColorGenerator extends Canvas {
         }
     }
 
-    public ColorGenerator(int numberOfGrains, int mainMatrixSizeX, int mainMatrixSizeY) {
+    public ColorGenerator(int numberOfGrains, int mainMatrixSizeX, int mainMatrixSizeY, boolean isMainGenerator) {
+        this.isMainGenerator  = isMainGenerator;
         this.numberOfGrains = numberOfGrains;
         this.mainMatrixSizeX = mainMatrixSizeX;
         this.mainMatrixSizeY = mainMatrixSizeY;
@@ -54,30 +57,37 @@ public class ColorGenerator extends Canvas {
         // In order to export the same matrix as was created previously we have saved the matrix as an instance variable "this.step0".
         // We use a boolean variable "this.runOnce" to check if the method has already been ran.
         // Check if this instance of ColorGenerator has already been run
-        if (this.runOnce) {
-            // If so, then use the previously created matrix.
-            System.out.println("The paint method was already ran");
-            printState(this.step1, colorMap, g);
-        } else {
-            if (isNoInclusionSelected()) {
-                this.step0 = InitialStateGenerator.generateInitial(matrixSizeX, matrixSizeY, grainNumber);
-                System.out.println("hello");
-                this.step0 = printAllStates(this.step0, colorMap, g);
-                step1 = this.step0;
+        if(isMainGenerator) {
+            if (this.runOnce) {
+                // If so, then use the previously created matrix.
+                System.out.println("The paint method was already ran");
+                printState(this.step1, colorMap, g);
             } else {
-                if (isPriorInclusionSelected()) {
-                    this.step0 = SquareInclusionsGenerator.generateMatrixWithPriorInclusion(sizerOfInclusions, numberOfInclusions, matrixSizeX, matrixSizeY);
-                    printAllStates(this.step0, colorMap, g);
-                } else if (isPostInclusionSelected()) {
+                if (isNoInclusionSelected()) {
                     this.step0 = InitialStateGenerator.generateInitial(matrixSizeX, matrixSizeY, grainNumber);
+                    System.out.println("hello");
                     this.step0 = printAllStates(this.step0, colorMap, g);
-                    PostInclusions.paintPostInclusionsOnCanvas(this.step0, g);
-                    PostInclusions.addPostInclusionsToGrainsMatrix(this.step0);
+                    step1 = this.step0;
+                } else {
+                    if (isPriorInclusionSelected()) {
+                        this.step0 = SquareInclusionsGenerator.generateMatrixWithPriorInclusion(sizerOfInclusions, numberOfInclusions, matrixSizeX, matrixSizeY);
+                        printAllStates(this.step0, colorMap, g);
+                    } else if (isPostInclusionSelected()) {
+                        this.step0 = InitialStateGenerator.generateInitial(matrixSizeX, matrixSizeY, grainNumber);
+                        this.step0 = printAllStates(this.step0, colorMap, g);
+                        PostInclusions.paintPostInclusionsOnCanvas(this.step0, g);
+                        PostInclusions.addPostInclusionsToGrainsMatrix(this.step0);
+                    }
+                    step1 = this.step0;
                 }
-                step1 = this.step0;
-            }
 
-            this.runOnce = true;
+                this.runOnce = true;
+            }
+        }
+        else {
+
+
+
         }
 
     }
@@ -95,6 +105,7 @@ public class ColorGenerator extends Canvas {
 
         }
     }*/
+
 
     public static int[][] printAllStates(int[][] step0, HashMap<Integer, Color> colorMap, Graphics g) {
         int[][] step1;

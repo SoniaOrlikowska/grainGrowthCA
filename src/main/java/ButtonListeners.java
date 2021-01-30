@@ -54,7 +54,7 @@ public class ButtonListeners {
             int mainMatrixSizeY = GrainGrowthFront.getInstance().getySizeSlider().getValue();
 
             ColorGenerator.reset();
-            ColorGenerator colorGenerator = new ColorGenerator(numberOfGrains, mainMatrixSizeX, mainMatrixSizeY);
+            ColorGenerator colorGenerator = new ColorGenerator(numberOfGrains, mainMatrixSizeX, mainMatrixSizeY, true);
             ButtonListeners.setColorGenerator(colorGenerator);
 
             if (GrainGrowthFront.showPanel.getComponents().length == 1) GrainGrowthFront.showPanel.remove(0);
@@ -79,15 +79,36 @@ public class ButtonListeners {
             int q = 800 / sizeY;
             int key = step1[x / p][y / q];
             ArrayList<Point> grainBoundsCoordinates = new ArrayList<>();
+            ArrayList<Point> dualPhaseCoordinates = new ArrayList<>();
+
             for (int i = 1; i < step1.length - 1; i++) {
                 for (int j = 1; j < step1[0].length - 1; j++) {
-                    if(GrainGrowthFront.getInstance().getSubstructureRadio().isSelected())
-                        if(step1[i][j] == key)    grainBoundsCoordinates.add(new Point(i, j));
-                    if (step1[i][j] == key && (step1[i + 1][j + 1] != key || step1[i - 1][j - 1] != key || step1[i][j - 1] != key || step1[i][j + 1] != key))
+                    if (GrainGrowthFront.getInstance().getDualPhaseRadio().isSelected()) {
+                        System.out.println("dual phase select");
+                        if (step1[i][j] == key) grainBoundsCoordinates.add(new Point(i, j));
+
+                    } else if (GrainGrowthFront.getInstance().getSubstructureRadio().isSelected()) {
+                        System.out.println("Bonjour substructure");
+                        if (step1[i][j] == key) dualPhaseCoordinates.add(new Point(i, j));
+
+                    } else if (step1[i][j] == key && (step1[i + 1][j + 1] != key || step1[i - 1][j - 1] != key || step1[i][j - 1] != key || step1[i][j + 1] != key)) {
+                        System.out.println("hmmmm22222");
                         grainBoundsCoordinates.add(new Point(i, j));
+
+                    }
 
                 }
             }
+            if (GrainGrowthFront.getInstance().getSubstructureRadio().isSelected()) {
+                System.out.println(dualPhaseCoordinates);
+                Substructure.setSubstructureCoordinates(dualPhaseCoordinates); // Get all coord for clicked grain
+                int[][] sideStep = Substructure.subStateInitialMatrix(Substructure.findSubstructureSeeds()); // Create a matrix with new subgrains from clicked grain
+                sideStep = Substructure.printSideStates(sideStep); // Create final state of the subgrain matrix
+                int[][] newStep = Substructure.combineSubstructureMatrices(ColorGenerator.step1, sideStep); // combine "mother" matrix with submatrix
+
+                ColorGenerator.setStep1(newStep); // Set step1 to be the new matrix with submatrix
+            }
+
             ColorGenerator.setGrainBorderCoordinate(grainBoundsCoordinates);
             canvas.repaint();
         }

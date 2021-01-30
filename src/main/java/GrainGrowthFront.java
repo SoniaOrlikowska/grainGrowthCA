@@ -41,11 +41,8 @@ public class GrainGrowthFront {
     JButton addBordersButton = new JButton("Add Borders");
     JButton clearSpaceButton = new JButton("Clear Space");
     JLabel substructureTypeLabel = new JLabel("Substructure  type: ");
-
-
     JRadioButton substructureRadio = new JRadioButton("Substructure");
     JRadioButton dualPhaseRadio = new JRadioButton("Dual Phase");
-    JButton addSubStructureButton = new JButton("Add Dual Phase");
 
 
     public void setFrameLayout() {
@@ -280,7 +277,7 @@ public class GrainGrowthFront {
         gridBagConstraints.gridy = 14;
         gridBagConstraints.insets = new Insets(10, 0, 0, 0);
         gridBagConstraints.weightx = 1;
-        firstPanel.add(addSubStructureButton, gridBagConstraints);
+
 
 
         firstPanel.setBackground(Color.white);
@@ -307,7 +304,7 @@ public class GrainGrowthFront {
         typeOfInclusionsComboBox.addActionListener(new ButtonListeners.DisableInclusions());
         clearSpaceButton.addActionListener(new ButtonListeners.ClearSpace());
         addBordersButton.addActionListener(new ButtonListeners.AddBorders());
-        addSubStructureButton.addActionListener(new ButtonListeners.AddDualPhase());
+
 
 
     }
