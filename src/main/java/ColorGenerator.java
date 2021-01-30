@@ -21,14 +21,10 @@ public class ColorGenerator extends Canvas {
     }
 
     public static void setGrainBorderCoordinate(ArrayList<Point> grainBorderCoordinate) {
-        // ColorGenerator.grainBorderCoordinate.addAll(grainBorderCoordinate);
-
         for (Point point : grainBorderCoordinate) {
             step1[point.x][point.y] = -1;
         }
     }
-
-    // static ArrayList<Point> grainBorderCoordinate;
 
     public ColorGenerator(int numberOfGrains, int mainMatrixSizeX, int mainMatrixSizeY) {
         this.numberOfGrains = numberOfGrains;
@@ -37,7 +33,6 @@ public class ColorGenerator extends Canvas {
         this.step0 = new int[this.mainMatrixSizeX][this.mainMatrixSizeY];
         step1 = new int[this.mainMatrixSizeX][this.mainMatrixSizeY];
         runOnce = false;
-        //grainBorderCoordinate = new ArrayList<>();
     }
 
     public void paint(Graphics g) {
@@ -62,9 +57,7 @@ public class ColorGenerator extends Canvas {
         if (this.runOnce) {
             // If so, then use the previously created matrix.
             System.out.println("The paint method was already ran");
-
             printState(this.step1, colorMap, g);
-            //paintGrainBorderOnCanvas(step0, g, grainBorderCoordinate);
         } else {
             if (isNoInclusionSelected()) {
                 this.step0 = InitialStateGenerator.generateInitial(matrixSizeX, matrixSizeY, grainNumber);
@@ -80,13 +73,8 @@ public class ColorGenerator extends Canvas {
                     this.step0 = printAllStates(this.step0, colorMap, g);
                     PostInclusions.paintPostInclusionsOnCanvas(this.step0, g);
                     PostInclusions.addPostInclusionsToGrainsMatrix(this.step0);
-                    // PostInclusions.addBordersToGrainsMatrix(this.step0);
-                    // paintOnlyBorders(this.step0, g);
                 }
                 step1 = this.step0;
-                // PostInclusions.addBordersToGrainsMatrix(this.step0);
-                // PostInclusions.paintBordersOnCanvas(this.step0, g);
-                //PostInclusions.addBordersToGrainsMatrix(step1);
             }
 
             this.runOnce = true;
@@ -94,7 +82,7 @@ public class ColorGenerator extends Canvas {
 
     }
 
-    public static void paintGrainBorderOnCanvas(int[][] grainsMatrix, Graphics g, ArrayList<Point> grainBorderCoordinates) {
+    /*public static void paintGrainBorderOnCanvas(int[][] grainsMatrix, Graphics g, ArrayList<Point> grainBorderCoordinates) {
         int chosenSizeX = grainsMatrix.length;
         int chosenSizeY = grainsMatrix[0].length;
         int borderSize = GrainGrowthFront.getInstance().getBorderThicknessSlider().getValue();
@@ -106,7 +94,7 @@ public class ColorGenerator extends Canvas {
             g.fillRect(p * point.x, q * point.y, borderSize, borderSize);
 
         }
-    }
+    }*/
 
     public static int[][] printAllStates(int[][] step0, HashMap<Integer, Color> colorMap, Graphics g) {
         int[][] step1;

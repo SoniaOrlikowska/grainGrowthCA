@@ -16,8 +16,15 @@ public class ButtonListeners {
         ButtonListeners.canvas = value;
     }
 
+    public static class AddDualPhase implements ActionListener {
 
-    public static class ClearSpace implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+    public static class ClearSpace implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -25,7 +32,8 @@ public class ButtonListeners {
             canvas.repaint();
         }
     }
-    public static class AddBorders implements ActionListener{
+
+    public static class AddBorders implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -34,6 +42,7 @@ public class ButtonListeners {
             canvas.repaint();
         }
     }
+
     public static class StartSimulation implements ActionListener {
         static HashMap<Integer, Point> selectedGrainsCoordinates = new HashMap<Integer, Point>();
 
@@ -50,14 +59,11 @@ public class ButtonListeners {
 
             if (GrainGrowthFront.showPanel.getComponents().length == 1) GrainGrowthFront.showPanel.remove(0);
             GrainGrowthFront.showPanel.add(colorGenerator);
-            // if (!numberOfGrainsText.equals("") && mainMatrixSizeX != 0 && mainMatrixSizeY != 0) { //weryfikacja tego co wpisuje uzytkownik: zrobic TRIM
+
             colorGenerator.setSize(800, 800);
-            //GrainGrowthFront.getInstance().getStartSimulation().setEnabled(true);
             SaveCanvas.setCanvas(colorGenerator);
-            // }
             colorGenerator.addMouseListener(new SelectedGrainsCoordinates());
         }
-
     }
 
     public static class SelectedGrainsCoordinates extends MouseAdapter {
@@ -75,12 +81,21 @@ public class ButtonListeners {
             ArrayList<Point> grainBoundsCoordinates = new ArrayList<>();
             for (int i = 1; i < step1.length - 1; i++) {
                 for (int j = 1; j < step1[0].length - 1; j++) {
+                    if(GrainGrowthFront.getInstance().getSubstructureRadio().isSelected())
+                        if(step1[i][j] == key)    grainBoundsCoordinates.add(new Point(i, j));
                     if (step1[i][j] == key && (step1[i + 1][j + 1] != key || step1[i - 1][j - 1] != key || step1[i][j - 1] != key || step1[i][j + 1] != key))
                         grainBoundsCoordinates.add(new Point(i, j));
+
                 }
             }
             ColorGenerator.setGrainBorderCoordinate(grainBoundsCoordinates);
             canvas.repaint();
+        }
+
+        public boolean isDualPhaseSelected() {
+            boolean flag = false;
+            if (GrainGrowthFront.getInstance().getDualPhaseRadio().isSelected()) flag = true;
+            return flag;
         }
     }
 

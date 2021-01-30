@@ -14,8 +14,8 @@ public class GrainGrowthFront {
     JLabel numberOfGrains = new JLabel("Number of grains:");
     static JTextField numberOfGrainsText = new JTextField(6);
     JLabel type_of_boundaries = new JLabel("Boundaries type: ");
-    JRadioButton periodic = new JRadioButton("periodic");
-    JRadioButton absorbent = new JRadioButton("absorbent");
+    JRadioButton periodic = new JRadioButton("Periodic");
+    JRadioButton absorbent = new JRadioButton("Absorbent");
     JLabel type_of_inclusion = new JLabel("Type of inclusions:");
     String[] inclusionTypes = {"", "Square", "Circle"};
     JComboBox typeOfInclusionsComboBox = new JComboBox(inclusionTypes);
@@ -40,6 +40,12 @@ public class GrainGrowthFront {
     JSlider borderThicknessSlider = new JSlider(JSlider.HORIZONTAL, 0, 15, 5);
     JButton addBordersButton = new JButton("Add Borders");
     JButton clearSpaceButton = new JButton("Clear Space");
+    JLabel substructureTypeLabel = new JLabel("Substructure  type: ");
+
+
+    JRadioButton substructureRadio = new JRadioButton("Substructure");
+    JRadioButton dualPhaseRadio = new JRadioButton("Dual Phase");
+    JButton addSubStructureButton = new JButton("Add Dual Phase");
 
 
     public void setFrameLayout() {
@@ -244,6 +250,39 @@ public class GrainGrowthFront {
         gridBagConstraints.weightx = 1;
         firstPanel.add(clearSpaceButton, gridBagConstraints);
 
+        ButtonGroup phaseRadioButtonsGroup = new ButtonGroup();
+        phaseRadioButtonsGroup.add(substructureRadio);
+        phaseRadioButtonsGroup.add(dualPhaseRadio);
+
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.insets = new Insets(10, 10, 0, 0);
+        gridBagConstraints.weightx = 1;
+        firstPanel.add(substructureTypeLabel, gridBagConstraints);
+
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.insets = new Insets(10, 0, 0, 0);
+        gridBagConstraints.weightx = 1;
+        firstPanel.add(substructureRadio, gridBagConstraints);
+
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.insets = new Insets(10, 0, 0, 0);
+        gridBagConstraints.weightx = 1;
+        firstPanel.add(dualPhaseRadio, gridBagConstraints);
+
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.insets = new Insets(10, 0, 0, 0);
+        gridBagConstraints.weightx = 1;
+        firstPanel.add(addSubStructureButton, gridBagConstraints);
+
+
         firstPanel.setBackground(Color.white);
         firstPanel.setBorder(BorderFactory.createEtchedBorder());
         showPanel.setBackground(Color.white);
@@ -268,6 +307,8 @@ public class GrainGrowthFront {
         typeOfInclusionsComboBox.addActionListener(new ButtonListeners.DisableInclusions());
         clearSpaceButton.addActionListener(new ButtonListeners.ClearSpace());
         addBordersButton.addActionListener(new ButtonListeners.AddBorders());
+        addSubStructureButton.addActionListener(new ButtonListeners.AddDualPhase());
+
 
     }
 
@@ -326,10 +367,21 @@ public class GrainGrowthFront {
 
     public JSlider getBorderThicknessSlider() {
         return borderThicknessSlider;
-    } public JButton getAddBordersButton() {
+    }
+
+    public JButton getAddBordersButton() {
         return addBordersButton;
     }
+
     public void setBorderThicknessSlider(JSlider borderThicknessSlider) {
         this.borderThicknessSlider = borderThicknessSlider;
     }
+
+    public JRadioButton getDualPhaseRadio() {
+        return dualPhaseRadio;
+    }
+    public JRadioButton getSubstructureRadio() {
+        return substructureRadio;
+    }
+
 }
