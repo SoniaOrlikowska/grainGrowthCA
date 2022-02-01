@@ -7,8 +7,8 @@ This was my first student project, now I would not rather choose Arrays to popul
 But after all, I'm happy with the output I got, and I had lots of fun implementing it. <br />
 <img src="https://github.com/SoniaOrlikowska/grainGrowthCA/blob/master/Multiscale%20pics/1.png" width="800"><br /> Pic 1. General UI overview
 <img src="https://github.com/SoniaOrlikowska/grainGrowthCA/blob/master/Multiscale%20pics/2.png" width="800"><br /> Pic 2. Random seeds generation
-<img src="https://github.com/SoniaOrlikowska/grainGrowthCA/blob/master/Multiscale%20pics/3.png" width="800"><br /> Pic 3. Complete simple simulation. Grain growth only.
-<img src="https://github.com/SoniaOrlikowska/grainGrowthCA/blob/master/Multiscale%20pics/4.png" width="800"><br /> Pic 4. Adding inclusions, before simulation (random), after simulation ( only borders). Inclusions could be squares or circles.
+<img src="https://github.com/SoniaOrlikowska/grainGrowthCA/blob/master/Multiscale%20pics/3.png" width="800"><br /> Pic 3. Complete simple simulation. Grain growth only.<br />
+<img src="https://github.com/SoniaOrlikowska/grainGrowthCA/blob/master/Multiscale%20pics/4.png" width="800"><br /> Pic 4. Adding inclusions, before simulation (random), after simulation ( only borders). Inclusions could be squares or circles.<br />
 <img src="https://github.com/SoniaOrlikowska/grainGrowthCA/blob/master/Multiscale%20pics/5.png" width="800"><br /> Pic 5. Adding borders<br />
 <img src="https://github.com/SoniaOrlikowska/grainGrowthCA/blob/master/Multiscale%20pics/6.png" width="800"><br /> Pic 6. Regenerating grain growth in selected cells. 
 <img src="https://github.com/SoniaOrlikowska/grainGrowthCA/blob/master/Multiscale%20pics/7.png" width="800"><br /> Pic 7. Marking selected sells black<br />
